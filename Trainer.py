@@ -25,6 +25,7 @@ class Trainer(object):
         self.sim_loss_m = args.m
 
     def train_mini_batch(self):
+        self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
         return loss.item()
@@ -67,6 +68,7 @@ class Trainer(object):
 
     def train_batch(self):
         self.model.train()
+        self.optimizer.zero_grad()
         loss = self.sigma*self.ae_loss() + self.beta*self.tf_loss() + self.gamma*self.sim_loss()
         loss.backward()
         self.optimizer.step()
@@ -74,6 +76,7 @@ class Trainer(object):
 
     def train_sage(self):
         self.model.train()
+        self.optimizer.zero_grad()
         loss = self.gamma*self.sage_sim_loss()
         loss.backward()
         self.optimizer.step()
